@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo ntpdate localhost
+ntpq -c "host 127.0.0.1" -pn
 
 result=$?
 if [ $result -eq 0 ]; then
