@@ -1,0 +1,36 @@
+document: modulemd
+version: 1
+data:
+    summary: A minimal ntpd module
+    description: An minimal ntpd module - a Network Time Protocol Server
+    license:
+        module: [ MIT ]
+    dependencies:
+        buildrequires:
+            base-runtime: master
+        requires:
+            base-runtime: master
+    references:
+        community: https://fedoraproject.org/wiki/Modularity
+        documentation: https://github.com/container-images/ntpd
+        tracker: https://github.com/container-images/ntpd
+    profiles:
+        default:
+            rpms:
+                - ntp
+        utils:
+            rpms:
+                - ntp
+                - ntpdate
+    api:
+        rpms:
+            - ntp
+    components:
+        rpms:
+            # TBD: more packages
+            ntp:
+                rationale: Provides API for this module.
+                ref: f25
+            ntpdate:
+                rationale: Provides a tool to set the date and time via NTP
+                ref: f25
