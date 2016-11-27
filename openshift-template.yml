@@ -1,0 +1,62 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: ntp-container
+  annotations:
+    description: a NTP container
+    tags: ntp
+labels:
+  template: ntp
+  group: ntp
+  version: 1.0.0
+objects:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: "ntpd-container"
+  spec:
+    dockerImageRepository: "karsten/ntpd-container"
+  tags:
+    - name: "latest"
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: "ntpd-container"
+  spec:
+    selector:
+      name: "ntpd-container"
+    strategy:
+      type: "Rolling"
+    triggers:
+      - type: "ImageChange"
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - "ntpd-container"
+          from:
+            kind: "ImageStreamTag"
+            name: "ntpd-container:latest"
+    replicas: 1
+    template:
+      metadata:
+        name: "ntpd-container"
+        labels:
+          name: "ntpd-container"
+      spec:
+        containers:
+          - name: "ntpd-container"
+            image: "ntpd-container:latest"
+            ports:
+              - containerPort: 25
+            volumeMounts:
+            #  - mountPath: /var/proftpd-container
+            #    name: var
+              - mountPath: /home/karsten
+                name: data
+        volumes:
+        #  - name: var
+        #    emptyDir:
+        #      medium: Memory
+          - name: data
+            emptyDir: {}
