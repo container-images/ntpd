@@ -23,5 +23,6 @@ Command for running ntpd docker container:
 Commands for testing ntpd docker container:
 
 ```ntpq -c "host localhost -pn```
-```replace localhost with container IP if required```
+
+replace localhost with container IP if required
 
